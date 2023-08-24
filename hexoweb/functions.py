@@ -732,7 +732,7 @@ def get_post_details(article, safe=True):
         elif "---" in article:
             article = "---\n" + article
     abbrlink = get_crc_by_time(str(time()), get_setting("ABBRLINK_ALG"), get_setting("ABBRLINK_REP"))
-    dateformat = datetime.now(timezone.utc).astimezone().isoformat()
+    dateformat = strftime("%Y-%m-%d %H:%M:%S", localtime(time()))
     try:
         if article[:3] == "---":
             front_matter = re.search(r"---([\s\S]*?)---", article, flags=0).group()[3:-4]
@@ -760,7 +760,7 @@ def get_post_details(article, safe=True):
     else:
         for key in front_matter.keys():
             if type(front_matter.get(key)) == datetime:
-                front_matter[key] = front_matter[key].astimezone().isoformat()
+                front_matter[key] = front_matter[key].strftime("%Y-%m-%d %H:%M:%S")
             elif type(front_matter.get(key)) == date:
                 front_matter[key] = front_matter[key].isoformat()
         if safe:
